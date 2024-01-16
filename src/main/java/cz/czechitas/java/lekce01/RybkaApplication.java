@@ -7,32 +7,45 @@ import cz.czechitas.java.playground.Kamen;
 import cz.czechitas.java.playground.Rybka;
 import javafx.scene.paint.Color;
 
+import java.util.function.Consumer;
+
 public class RybkaApplication extends CzechitasGameApplication {
-  private Rybka rybka;
-  private Kamen kamen;
+    private Rybka rybka;
+    private Kamen kamen;
 
-  public static void main(String[] args) {
-    launch(args);
-  }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-  @Override
-  protected void initSettings(GameSettings settings) {
-    settings.setNative(true);
-    settings.setWidth(800);
-    settings.setHeight(600);
-    settings.setTitle("Rybka Renata");
-    settings.setVersion("1.0");
-  }
+    @Override
+    protected void initSettings(GameSettings settings) {
+        settings.setNative(true);
+        settings.setWidth(800);
+        settings.setHeight(600);
+        settings.setTitle("Rybka Renata");
+        settings.setVersion("1.0");
+    }
 
-  @Override
-  protected void initGame() {
-    FXGL.getGameScene().setBackgroundColor(Color.AQUA);
-    super.initGame();
-  }
+    @Override
+    protected void initGame() {
+        FXGL.getGameScene().setBackgroundColor(Color.AQUA);
+        super.initGame();
+    }
 
-  @Override
-  protected void onStart() {
-    kamen = new Kamen(200, 200);
-    rybka = new Rybka(100, 100);
-  }
+    @Override
+    protected void onStart() {
+        kamen = new Kamen(200, 200);
+        rybka = new Rybka(100, 100);
+
+        move(Rybka::plavatVpravo);
+        move(Rybka::plavatDolu);
+        move(Rybka::plavatVlevo);
+        move(Rybka::plavatNahoru);
+    }
+
+    private void move(Consumer<Rybka> rybkaConsumer) {
+        for (int i = 0; i < 20; i++) {
+            rybkaConsumer.accept(rybka);
+        }
+    }
 }
